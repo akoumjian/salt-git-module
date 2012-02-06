@@ -11,6 +11,7 @@ Manage git repositories:
         - exists
         - repo: git://github.com/user/repo.git
 '''
+import os
 
 
 def exists(name, repo):
@@ -29,11 +30,14 @@ def exists(name, repo):
            'result': True,
            'comment': ''}
 
-
     try:
-        ret['changes'] = __salt__['git.clone'](repo=repo, dest=name)
+        if not os.path.exists(name):
+            ret['changes'] = __salt__['git.clone'](repo=repo, dest=name)
+        else:
+            ret['changes'] = __salt__['git.fetch'](remote=repo, dest=name)
+            ret['changes'].append(__salt__['git.checkout'](dest=name))
     except:
         ret['result'] = False
-        ret['comment'] = 'Failed to clone repository.'
+        ret['comment'] = 'Failed to get repository.'
 
     return ret
