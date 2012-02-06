@@ -12,6 +12,7 @@ Manage git repositories:
         - repo: git://github.com/user/repo.git
 '''
 import os
+import shutil
 
 
 def exists(name, repo):
@@ -32,7 +33,7 @@ def exists(name, repo):
 
     try:
         if os.path.exists(name):
-            os.rmdir(name)
+            shutil.rmtree(name)
         ret['changes']['clone'] = __salt__['git.clone'](repo=repo, dest=name)
             # ret['changes']['checkout'] = __salt__['git.checkout'](dest=name)
             # ret['changes']['pull'] = __salt__['git.pull'](dest=name)
