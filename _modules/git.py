@@ -10,7 +10,8 @@ def clone(repo='', dest=''):
     repo : None
         The repository source.
     dest : None
-        The destination directory. Uses the default from git if none specified
+        The destination directory. Uses the default from git if none.
+        (Probably ~/myrepo)
 
     CLI Example::
 
