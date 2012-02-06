@@ -29,10 +29,6 @@ def exists(name, repo):
            'result': True,
            'comment': ''}
 
-    # Make sure that opts is correct, it can be a list or a comma delimited
-    # string
-    if isinstance(opts, basestring):
-        opts = opts.split(',')
 
     try:
         ret['changes'] = __salt__['git.clone'](repo=repo, dest=name)
