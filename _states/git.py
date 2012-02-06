@@ -34,7 +34,7 @@ def exists(name, repo):
         if not os.path.exists(name):
             ret['changes'] = __salt__['git.clone'](repo=repo, dest=name)
         else:
-            ret['changes'] = __salt__['git.fetch'](remote=repo, dest=name)
+            ret['changes'] = __salt__['git.fetch'](dest=name)
             ret['changes'].append(__salt__['git.checkout'](dest=name))
     except:
         ret['result'] = False
