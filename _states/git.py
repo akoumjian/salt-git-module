@@ -11,8 +11,11 @@ Manage git repositories:
         - exists
         - repo: git://github.com/user/repo.git
 '''
+import logging
 import os
 import shutil
+
+logger = logging.getLogger(__name__)
 
 
 def exists(name, repo):
@@ -32,12 +35,15 @@ def exists(name, repo):
            'comment': ''}
 
     try:
-        if os.path.exists(name):
-            shutil.rmtree(name)
+        logger.debug("one")
+        shutil.rmtree(name, ignore_errors=True)
+        logger.debug("two")
+        os.makedirs(name)
+        logger.debug("three")
         ret['changes']['clone'] = __salt__['git.clone'](repo=repo, dest=name)
-            # ret['changes']['checkout'] = __salt__['git.checkout'](dest=name)
-            # ret['changes']['pull'] = __salt__['git.pull'](dest=name)
+        logger.debug("four")
     except:
+        logger.debug("Something went wrong in state module.")
         ret['result'] = False
         ret['comment'] = 'Failed to get repository.'
 

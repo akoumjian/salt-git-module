@@ -1,6 +1,8 @@
 '''
 Manage git repositories.
 '''
+import logging
+logger = logging.getLogger(__name__)
 
 
 def clone(repo='', dest=''):
@@ -18,11 +20,16 @@ def clone(repo='', dest=''):
         salt '*' git.clone git@github.com:username/myrepo.git \\
                 /path/to/destination/myrepo
     '''
-    cmd = 'git clone {repo} {dest}'.format(
-        repo=repo,
-        dest=dest)
+    result = ''
+    try:
+        cmd = 'git clone {repo} {dest}'.format(
+            repo=repo,
+            dest=dest)
+        result = __salt__['cmd.run'](cmd)
+    except:
+        logger.debug("Something went wrong while cloning.")
 
-    return __salt__['cmd.run'](cmd)
+    return result
 
 
 def pull(remote='', dest=''):
